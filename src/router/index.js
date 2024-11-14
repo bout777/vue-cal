@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -42,22 +43,40 @@ const router = createRouter({
           path: 'about',
           name: 'about',
           component: () => import('../views/layout/components/AboutView.vue')
+
         },
         {
-          path: 'profile',
-          name: 'profile',
-          component: () => import('../views/layout/components/ProfileView.vue')
-        },
-        {
-          path: 'published-requirements',
-          name: 'published-requirements',
-          component: () => import('../views/layout/components/PublishedRequirements.vue')
-        },
-        {
-          path: 'followed-demands',
-          name: 'followed-demands',
-          component: () => import('../views/layout/components/FollowedDemands.vue')
+          path: 'user-center',
+          component: () => import('../views/layout/components/UserCenterView.vue'),
+          children: [
+            {
+              path: '',
+              name: 'user-center',
+              redirect: 'profile'
+            },
+            {
+              path: 'profile',
+              name: 'profile',
+              component: () => import('../views/layout/components/ProfileView.vue')
+            },
+            {
+              path: 'published',
+              name: 'published-demands',
+              component: () => import('../views/layout/components/PublishedDemands.vue')
+            },
+            {
+              path: 'following',
+              name: 'followed-demands',
+              component: () => import('../views/layout/components/FollowedDemands.vue')
+            },
+            {
+              path: 'followed-users',
+              name: 'followed-users',
+              component: () => import('../views/layout/components/FollowedUsersView.vue')
+            }
+          ]
         }
+
       ]
     }
   ]

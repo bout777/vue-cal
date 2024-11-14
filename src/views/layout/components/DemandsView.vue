@@ -1,6 +1,17 @@
 <template>
   <div class="demands">
-    <h2>需求榜</h2>
+    <div class="search-box">
+      <el-input
+        v-model="searchQuery"
+        placeholder="搜索需求..."
+        class="search-input"
+        clearable
+      >
+        <template #prefix>
+          <el-icon><Search /></el-icon>
+        </template>
+      </el-input>
+    </div>
     <el-card
       v-for="demand in demands"
       :key="demand.id"
@@ -40,9 +51,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { ChatDotRound, View } from '@element-plus/icons-vue'
+import { ChatDotRound, View, Search } from '@element-plus/icons-vue'
 
 const router = useRouter()
+const searchQuery = ref('')
 const demands = ref([
   {
     id: 1,
@@ -87,6 +99,8 @@ const showDemandDetail = (id: number) => {
 <style scoped>
 .demands {
   padding: 20px;
+  max-width: 50%;
+  margin: 0 auto;
 }
 .demand-card {
   margin-bottom: 20px;
@@ -138,5 +152,10 @@ const showDemandDetail = (id: number) => {
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+.search-box {
+  margin-bottom: 20px;
+  
 }
 </style>

@@ -63,6 +63,7 @@
       <el-form-item>
         <el-button type="primary" @click="submitForm">发布需求</el-button>
         <el-button @click="resetForm">重置</el-button>
+        <el-button @click="handleCancel">取消</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -132,7 +133,10 @@ const publishDemand = async (demandData) => {
   // })
 }
 
-// 提交表单
+// Add emits definition
+const emit = defineEmits(['submit-success', 'cancel'])
+
+// Update submitForm function
 const submitForm = async () => {
   if (!formRef.value) return
 
@@ -140,10 +144,15 @@ const submitForm = async () => {
     await formRef.value.validate()
     await publishDemand(demandForm)
     ElMessage.success('需求发布成功！')
-    router.push('/demands')
+    emit('submit-success') // Emit success event instead of router push
   } catch (error) {
     console.error('表单验证失败:', error)
   }
+}
+
+// Add cancel handler
+const handleCancel = () => {
+  emit('cancel')
 }
 
 // 重置表单

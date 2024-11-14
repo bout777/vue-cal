@@ -1,6 +1,5 @@
 <template>
   <div class="profile">
-    <h2>个人中心</h2>
     <el-card class="profile-card">
       <div class="user-info">
         <div class="avatar-section">
@@ -121,12 +120,14 @@ const handleAvatarUpload = () => {
 
 <style scoped>
 .profile {
-  padding: 20px;
+  padding: 0;
 }
 
 .profile-card {
-  max-width: 800px;
-  margin: 20px auto;
+  margin: 0;
+  :deep(.el-card__body) {
+    padding: 0;
+  }
 }
 
 .user-info {

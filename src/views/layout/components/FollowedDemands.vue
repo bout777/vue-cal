@@ -1,6 +1,6 @@
 <template>
   <div class="followed-demands">
-    <h3>已关注的需求</h3>
+
     <div class="demands-list" v-if="demands.length">
       <div v-for="demand in demands" :key="demand.id" class="demand-item">
         <h4>{{ demand.title }}</h4>
