@@ -16,13 +16,15 @@ export const useUserStore = defineStore('user', () => {
   async function login(loginForm) {
     // 这里应该调用实际的登录 API
     const response = await service.post('/login', loginForm)
-    
+
     // 模拟登录成功
     const mockResponse = {
       token: 'mock-token-123',
       user: {
         id: 1,
         username: loginForm.username,
+        email: loginForm.email,
+        phone: loginForm.phone,
         role: 'developer' // 或 'enterprise'
       }
     }

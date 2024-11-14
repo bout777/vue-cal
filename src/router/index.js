@@ -52,27 +52,31 @@ const router = createRouter({
             {
               path: '',
               name: 'user-center',
-              redirect: 'profile'
+              redirect: { name: 'profile' }
             },
             {
-              path: 'profile',
+              path: 'profile/:userId?',
               name: 'profile',
-              component: () => import('../views/layout/components/ProfileView.vue')
+              component: () => import('../views/layout/components/ProfileView.vue'),
+              props: true
             },
             {
-              path: 'published',
+              path: ':userId?/published',
               name: 'published-demands',
-              component: () => import('../views/layout/components/PublishedDemands.vue')
+              component: () => import('../views/layout/components/PublishedDemands.vue'),
+              props: true
             },
             {
-              path: 'following',
+              path: ':userId?/following',
               name: 'followed-demands',
-              component: () => import('../views/layout/components/FollowedDemands.vue')
+              component: () => import('../views/layout/components/FollowedDemands.vue'),
+              props: true
             },
             {
-              path: 'followed-users',
+              path: ':userId?/followed-users',
               name: 'followed-users',
-              component: () => import('../views/layout/components/FollowedUsersView.vue')
+              component: () => import('../views/layout/components/FollowedUsersView.vue'),
+              props: true
             }
           ]
         }

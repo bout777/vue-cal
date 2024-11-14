@@ -7,12 +7,8 @@
         </div>
       </template>
 
-      <div
-        class="infinite-list"
-        v-infinite-scroll="loadMore"
-        :infinite-scroll-disabled="disabled"
-      >
-        <div v-if="loading" class="loading-wrapper">
+      <el-scrollbar class="infinite-list" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
+        <div v-if="!initLoaded" class="loading-wrapper">
           <el-skeleton :rows="3" animated />
         </div>
 
@@ -27,20 +23,24 @@
               type="primary"
               size="small"
               @click="unfollowUser(user.id)"
+              v-if="canEdit"
             >取消关注</el-button>
           </div>
         </template>
 
         <div v-if="noMore" class="no-more">没有更多了</div>
-      </div>
+      </el-scrollbar>
     </el-card>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useRoute } from 'vue-router';
+import { useUserStore } from '@/stores/user'
 
+const route = useRoute()
 const page = ref(1)
 const pageSize = 10
 const loading = ref(false)
@@ -144,8 +144,15 @@ const mockUsers = [
   }
 ]
 
+const initLoaded = ref(false)
+const initLoad = async () => {
+  if (initLoaded.value) return
+  setTimeout(() => {
+  initLoaded.value = true
+  },1000)
+}
 // 修改 loadMore 函数使用测试数据
-const loadMore = async () => {
+const load = async () => {
   if (loading.value) return
 
   loading.value = true
@@ -183,6 +190,17 @@ const unfollowUser = async (userId) => {
     ElMessage.error('操作失败，请稍后重试')
   }
 }
+
+const userStore = useUserStore()
+const canEdit = ref(false)
+// 添加 onMounted 钩子
+onMounted(() => {
+  // if (route.params.userId===userStore.userInfo.id) {
+  //   canEdit.value = true
+  // }
+  initLoad()
+   load() // 同时触发第一次数据加载
+})
 </script>
 
 <style scoped>
@@ -192,7 +210,11 @@ const unfollowUser = async (userId) => {
 
 .infinite-list {
   height: calc(100vh - 200px);
-  overflow-y: auto;
+  overflow-y: hidden;
+}
+
+.infinite-list :deep(.el-scrollbar__wrap) {
+  overflow-x: hidden;
 }
 
 .user-item {

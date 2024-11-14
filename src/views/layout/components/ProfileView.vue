@@ -6,7 +6,7 @@
           <el-avatar :size="100" :src="userInfo.avatar">
             <el-icon><UserFilled /></el-icon>
           </el-avatar>
-          <el-button type="primary" link @click="handleAvatarUpload">
+          <el-button type="primary" link @click="handleAvatarUpload" v-if="canEdit">
             更换头像
           </el-button>
         </div>
@@ -20,7 +20,7 @@
 
       <div class="contact-info">
         <h3>联系方式
-          <el-button type="primary" link @click="startEdit" v-if="!isEditing">
+          <el-button type="primary" link @click="startEdit" v-if="!isEditing&&canEdit">
             编辑
           </el-button>
         </h3>
@@ -55,40 +55,50 @@
       </div>
 
       <el-divider />
-
-      <div class="user-stats">
-        <div class="stat-item">
-          <h4>发布的需求</h4>
-          <p>{{ userInfo.demands }}</p>
-        </div>
-        <div class="stat-item">
-          <h4>参与的项目</h4>
-          <p>{{ userInfo.projects }}</p>
-        </div>
-      </div>
     </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { UserFilled, Message, Phone } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import { useUserStore } from '@/stores/user'
 
 const isEditing = ref(false)
+
+const route = useRoute()
+const userStore = useUserStore()
+
 const userInfo = ref({
-  name: '测试用户',
-  email: 'test@example.com',
-  phone: '13800138000',
+  id: '',
+  name: '',
   avatar: '',
-  demands: 5,
-  projects: 3
+  email: '',
+  phone: '',
 })
 
 const editForm = ref({
-  email: userInfo.value.email,
-  phone: userInfo.value.phone
+  email: '',
+  phone: ''
 })
+
+onMounted(async () => {
+  if (route.params.userId === userStore.userInfo.id) {
+    userInfo.value = userStore.userInfo
+    canEdit.value = true
+  } else {
+    canEdit.value = false
+    //TODO:此处调用请求用户信息
+    // userInfo.value = await api.getUserInfo(route.params.userId)
+  }
+  // // 初始化编辑表单
+  // editForm.value.email = userInfo.value.email
+  // editForm.value.phone = userInfo.value.phone
+})
+
+const canEdit = ref(false)
 
 const startEdit = () => {
   editForm.value.email = userInfo.value.email
@@ -120,14 +130,12 @@ const handleAvatarUpload = () => {
 
 <style scoped>
 .profile {
-  padding: 0;
+  padding: 20px;
 }
 
 .profile-card {
-  margin: 0;
-  :deep(.el-card__body) {
-    padding: 0;
-  }
+  max-width: 800px;
+  margin: 20px auto;
 }
 
 .user-info {
