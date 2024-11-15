@@ -57,7 +57,8 @@ const tabItems = [
   { label: '需求榜', name: 'demands' },
   { label: '公告栏', name: 'announcements' },
   { label: '关于', name: 'about' },
-  { label: '个人中心', name: 'profile' }
+  { label: '个人中心', name: 'profile' },
+  { label: '社区', name: 'community' }
 ]
 
 const handleClick = (tab: any) => {

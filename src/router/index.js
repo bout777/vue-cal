@@ -79,6 +79,11 @@ const router = createRouter({
               props: true
             }
           ]
+        },
+        {
+          path: 'community',
+          name: 'community',
+          component: () => import('../views/layout/components/community.vue')
         }
 
       ]

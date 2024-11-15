@@ -1,5 +1,5 @@
 <template>
-  <div class="user-center">
+  <div class="community">
     <div class="sidebar">
       <el-menu
         :default-active="activeMenu"
@@ -26,22 +26,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { User, Star, List, ChatDotRound, Message } from '@element-plus/icons-vue'
+import { User, Office, ChatDotRound, Message } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const route = useRoute()
-const activeMenu = ref('profile')
+const activeMenu = ref('developers')
 
 const menuItems = [
-  { index: 'profile', icon: 'User', title: '个人资料' },
-  { index: 'followed-users', icon: 'UserFilled', title: '关注的用户' },
-  { index: 'followed-demands', icon: 'Star', title: '我关注的需求' },
-  { index: 'published-demands', icon: 'List', title: '我发布的需求' },
+  { index: 'developers', icon: 'User', title: '开发者' },
+  { index: 'companies', icon: 'Office', title: '企业' },
+  { index: 'my-posts', icon: 'ChatDotRound', title: '我发出的回复' },
+  { index: 'received-posts', icon: 'Message', title: '我收到的回复' },
 ]
 
-// 监听路由变化
 watch(
   () => route.name,
   (newName) => {
@@ -57,12 +56,12 @@ const handleSelect = (key: string) => {
 </script>
 
 <style scoped>
-.user-center {
+.community {
   display: flex;
   width: 100%;
   min-height: 100vh;
   padding: 20px;
-
+  background-color: #f5f7fa;
 }
 
 .sidebar {
@@ -86,8 +85,6 @@ const handleSelect = (key: string) => {
 
 .content-wrapper {
   flex: 1;
-
-
   display: flex;
   justify-content: center;
   align-items: flex-start;
