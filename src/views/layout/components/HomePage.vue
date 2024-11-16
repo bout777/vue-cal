@@ -34,5 +34,6 @@
 .el-main {
   flex: 1;
   overflow-y: auto;
+  padding: 0;
 }
 </style>

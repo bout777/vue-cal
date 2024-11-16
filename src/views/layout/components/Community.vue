@@ -60,24 +60,25 @@ const handleSelect = (key: string) => {
   display: flex;
   width: 100%;
   min-height: 100vh;
-  padding: 20px;
+  padding: 0;
   background-color: #f5f7fa;
 }
 
 .sidebar {
   width: 200px;
+  height: 100%;
   flex-shrink: 0;
   background-color: #f7f7f7;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.01);
   position: fixed;
-  left: 20px;
+
 }
 
 .menu {
   border-right: none;
   width: 100%;
-  border-radius: 8px;
+
   :deep(.el-menu-item:hover) {
     background-color: #f5f7fa;
   }
@@ -95,7 +96,6 @@ const handleSelect = (key: string) => {
   min-width: 600px;
   max-width: 800px;
   background: #fff;
-  border-radius: 8px;
   padding: 0;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   display: flex;
@@ -103,3 +103,4 @@ const handleSelect = (key: string) => {
   align-items: stretch;
 }
 </style>
+

@@ -1,7 +1,7 @@
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
+import './mock'
 import 'element-plus/dist/index.css'
 import './assets/styles/reset.css'
 import App from './App.vue'
