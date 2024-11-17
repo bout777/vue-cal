@@ -130,19 +130,20 @@ const handleAvatarUpload = () => {
 
 <style scoped>
 .profile {
-  padding: 20px;
+  position: relative;
+  padding: 0px;
 }
 
 .profile-card {
   max-width: 800px;
-  margin: 20px auto;
+  margin: 0 auto;
 }
 
 .user-info {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 20px 0;
+  padding: 0;
 }
 
 .avatar-section {

@@ -4,7 +4,9 @@ import { RouterView } from 'vue-router';
 </script>
 
 <template>
-<RouterView></RouterView>
+  
+    <RouterView></RouterView>
+
 </template>
 
 <style>
@@ -18,5 +20,10 @@ html, body, #app {
 #app {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+}
+
+:deep(.el-scrollbar__wrap) {
+  overflow-x: hidden !important;
 }
 </style>
