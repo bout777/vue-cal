@@ -65,19 +65,14 @@ import { useRoute } from 'vue-router'
 import { UserFilled, Message, Phone } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
+import service from '@/utils/request'
 
 const isEditing = ref(false)
 
 const route = useRoute()
 const userStore = useUserStore()
 
-const userInfo = ref({
-  id: '',
-  name: '',
-  avatar: '',
-  email: '',
-  phone: '',
-})
+const userInfo = ref({})
 
 const editForm = ref({
   email: '',
@@ -85,17 +80,16 @@ const editForm = ref({
 })
 
 onMounted(async () => {
-  if (route.params.userId === userStore.userInfo.id) {
-    userInfo.value = userStore.userInfo
+  if (route.params.userId === userStore.user.id) {
+    userInfo.value = userStore.user
     canEdit.value = true
   } else {
     canEdit.value = false
     //TODO:此处调用请求用户信息
-    // userInfo.value = await api.getUserInfo(route.params.userId)
+    const response = await service.get(`/api/user/${route.params.userId}`)
+    userInfo.value = response.data.data
   }
-  // // 初始化编辑表单
-  // editForm.value.email = userInfo.value.email
-  // editForm.value.phone = userInfo.value.phone
+
 })
 
 const canEdit = ref(false)

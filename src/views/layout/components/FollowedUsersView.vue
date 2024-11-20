@@ -100,7 +100,7 @@ onMounted(() => {
 
 // 组件卸载时移除滚动监听
 onUnmounted(() => {
-
+  emitter.off('infinaiteScroll')
   if (timer) {
     clearTimeout(timer)
   }

@@ -13,15 +13,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { emitter } from '@/utils/emitter'
 
 const disabled = ref(false)
 onMounted(() => {
   emitter.on('disabled', (disabled) => {
     disabled.value = disabled
-    console.log('disabled_val', disabled)
   })
+})
+
+onUnmounted(()=>{
+  emitter.off('disabled')
 })
 </script>
 <style scoped>

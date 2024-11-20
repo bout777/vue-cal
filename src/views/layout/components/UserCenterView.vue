@@ -51,9 +51,16 @@ watch(
   }
 )
 
+const userId = ref(route.params.userId)
+
 const handleSelect = (key: string) => {
-  router.push({ name: key })
+  router.push({ name: key, params: { userId: userId.value } })
 }
+
+onMounted(() => {
+  console.log('路径参数',route.params.userId)
+}
+)
 </script>
 
 <style scoped>
@@ -63,7 +70,6 @@ const handleSelect = (key: string) => {
   min-height: 100vh;
   padding: 0;
   background-color: #f5f7fa;
-
 }
 
 .sidebar {
