@@ -28,7 +28,6 @@ const getUserInfo = async () => {
   } else {
     const response = await service.get(`/api/user/${props.userId}`)
     user.value = response.data.data
-    console.log(user.value)
   }
 }
 

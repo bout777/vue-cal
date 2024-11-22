@@ -34,6 +34,26 @@ Mock.mock(/\/api\/user\/\d+/, 'get', (options) => {
   }
 })
 
+Mock.mock(/\/login/, 'post', (options) => {
+  // 对于 POST 请求，options.body 会包含请求数据
+  const requestData = JSON.parse(options.body)
+
+  // 可以根据请求数据返回不同的响应
+  if (requestData.username === 'admin' && requestData.password === '123456') {
+    return {
+      code: 200,
+      data: { token: '1234567890', userId: 1 },
+      message: '登录成功'
+    }
+  } else {
+    return {
+      code: 401,
+      data: null,
+      message: '用户名或密码错误'
+    }
+  }
+})
+
 export default Mock
 
 

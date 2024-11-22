@@ -170,12 +170,13 @@ onMounted(() => {
 .detail-container {
   display: flex;
   gap: 20px;
+  height: 100%;
 }
 
 /* 左侧详情区域 */
 .detail-section {
   flex: 3;  /* 占据更多空间 */
-  height: fit-content;
+  height: 100%;
 }
 
 .card-header {

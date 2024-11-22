@@ -6,10 +6,9 @@
         <p class="subtitle">请登录您的账号</p>
 
         <el-form
-          ref="loginForm"
           :model="loginForm"
-          :rules="rules"
           class="login-form"
+          :rules="rules"
         >
           <el-form-item prop="username">
             <el-input
@@ -88,7 +87,6 @@ const handleLogin = async () => {
   loading.value = true
   try {
     await userStore.login(loginForm)
-    await userStore.getUserInfo()
     ElMessage.success('登录成功')
     router.push('/')
   } catch (error) {

@@ -47,7 +47,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { UserFilled, CaretBottom, User, Setting, SwitchButton } from '@element-plus/icons-vue'
-
+import { useUserStore } from '@/stores/user'
 const router = useRouter()
 const activeTab = ref('home')
 const userAvatar = ref('') // 这里可以设置用户头像URL
@@ -61,8 +61,9 @@ const tabItems = [
   { label: '社区', name: 'community' }
 ]
 
+const userStore = useUserStore()
 const handleClick = (tab: any) => {
-  router.push({ name: tab.props.name })
+  router.push({ name: tab.props.name ,params:{userId:userStore.localUserId}})
 }
 
 const handleCommand = (command: string) => {

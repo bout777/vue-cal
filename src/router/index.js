@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -87,14 +87,20 @@ const router = createRouter({
   ]
 })
 
-// router.beforeEach((to, from, next) => {
-//   const hasToken = localStorage.getItem('token')
-
-//   if (to.meta.requiresAuth && !hasToken) {
-//     next('/login')
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  const token = userStore.token
+  console.log('token', token)
+  if (to.meta.requiresAuth && !token) {
+    next({
+      name: 'login',
+      query: { redirect: to.fullPath }
+    })
+  } else if (to.name === 'login' && token) {
+    next({ name: 'home' })
+  } else {
+    next()
+  }
+})
 
 export default router
