@@ -60,11 +60,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted ,watch} from 'vue'
 import { useRoute } from 'vue-router'
 import { UserFilled, Message, Phone } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
+
 import service from '@/utils/request'
 
 const isEditing = ref(false)
@@ -89,7 +90,13 @@ onMounted(async () => {
     const response = await service.get(`/api/user/${route.params.userId}`)
     userInfo.value = response.data.data
   }
+})
 
+watch(() => route.params.userId, async (newVal, oldVal) => {
+  console.log('newVal', newVal)
+  console.log('oldVal', oldVal)
+  const response = await service.get(`/api/user/${newVal}`)
+  userInfo.value = response.data.data
 })
 
 const canEdit = ref(false)

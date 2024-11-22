@@ -63,7 +63,12 @@ const tabItems = [
 
 const userStore = useUserStore()
 const handleClick = (tab: any) => {
-  router.push({ name: tab.props.name ,params:{userId:userStore.localUserId}})
+  if(tab.props.name === 'profile'){
+    console.log('userStore.localUserId', userStore.localUserId)
+    router.push({ name: 'profile', params: { userId: userStore.localUserId } })
+  }else{
+    router.push({ name: tab.props.name })
+  }
 }
 
 const handleCommand = (command: string) => {
