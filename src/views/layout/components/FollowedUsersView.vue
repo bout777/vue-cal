@@ -15,9 +15,10 @@
         </div>
 
         <template v-else>
-          <ul>
+          <!-- <ul>
           <user-card v-for="userId in followedUserIds" :key="userId" :userId="userId" />
-          </ul>
+          </ul> -->
+          <UserList :userIdList="followedUserIds"/>
         </template>
 
         <div v-if="loading" class="loading-wrapper">加载中</div>
@@ -33,6 +34,7 @@ import { ElMessage } from 'element-plus'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import UserCard from '@/components/UserCard.vue'
+import UserList from '@/components/UserList.vue'
 import { emitter } from '@/utils/emitter'
 
 const route = useRoute()
