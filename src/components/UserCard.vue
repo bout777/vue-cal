@@ -23,12 +23,10 @@ const props = defineProps(['userId'])
 const user = ref({})
 
 const getUserInfo = async () => {
-  if (props.userId === userStore.user.id) {
-    user.value = userStore.user
-  } else {
+
     const response = await service.get(`/api/user/${props.userId}`)
     user.value = response.data.data
-  }
+
 }
 
 onMounted(async () => {

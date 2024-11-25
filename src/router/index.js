@@ -79,7 +79,20 @@ const router = createRouter({
         {
           path: 'community',
           name: 'community',
-          component: () => import('../views/layout/components/community.vue')
+          component: () => import('../views/layout/components/Community.vue'),
+          children: [
+            // {
+            //   path: 'developers',
+            //   name: 'developers',
+            //   component: () => import('../views/layout/components/Developers.vue')
+            // },
+            {
+              path: 'receivedReplies',
+              name: 'received-replies',
+              component: () => import('../views/layout/components/Replies.vue')
+            }
+
+          ]
         }
 
       ]

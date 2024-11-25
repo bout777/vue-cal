@@ -52,23 +52,7 @@
           </template>
 
           <div class="reply-list">
-            <el-card
-              v-for="reply in demand.replies"
-              :key="reply.id"
-              class="reply-card"
-              shadow="hover"
-            >
-              <div class="reply-header">
-                <div class="user-info">
-                  <el-avatar :size="40" :src="reply.avatar">
-                    {{ reply.developer.charAt(0) }}
-                  </el-avatar>
-                  <span class="developer-name">{{ reply.developer }}</span>
-                </div>
-                <span class="reply-time">{{ reply.time }}</span>
-              </div>
-              <p class="reply-content">{{ reply.content }}</p>
-            </el-card>
+            <reply-card v-for="replyId in replyIds" :key="replyId" :replyId="replyId" />
           </div>
 
           <!-- 回复输入框 -->
@@ -95,10 +79,12 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Timer, Money, User } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import ReplyCard from '@/components/ReplyCard.vue'
 
 const route = useRoute()
 const newReply = ref('')
 
+const replyIds = ref([1,2,3,4])
 const demand = ref({
   id: 1,
   title: '网站开发需求',

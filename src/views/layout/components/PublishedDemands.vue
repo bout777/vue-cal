@@ -2,7 +2,6 @@
   <div class="published-requirements">
     <div v-if="!showPublishForm">
 
-
       <div v-if="loading" class="loading">
         加载中...
       </div>
@@ -38,6 +37,14 @@
 
 <script>
 import PublishDemand from '../../demand/PublishDemand.vue'
+
+// TODO: 展示需求列表
+//       提交需求页面优化
+//       添加收到的邀请界面
+//       实现开发者列表和企业列表的组件(用户列表,无限滚动,搜索框)
+//       实现回复卡片组件
+//       实现回复列表
+
 
 export default {
   name: 'PublishedRequirements',

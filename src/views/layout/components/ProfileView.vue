@@ -81,15 +81,13 @@ const editForm = ref({
 })
 
 onMounted(async () => {
-  if (route.params.userId === userStore.user.id) {
-    userInfo.value = userStore.user
+  if (route.params.userId === userStore.localUserId) {
     canEdit.value = true
   } else {
     canEdit.value = false
-    //TODO:此处调用请求用户信息
-    const response = await service.get(`/api/user/${route.params.userId}`)
-    userInfo.value = response.data.data
   }
+  const response = await service.get(`/api/user/${route.params.userId}`)
+  userInfo.value = response.data.data
 })
 
 watch(() => route.params.userId, async (newVal, oldVal) => {

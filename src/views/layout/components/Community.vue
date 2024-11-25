@@ -38,7 +38,7 @@ const menuItems = [
   { index: 'developers', icon: 'User', title: '开发者' },
   { index: 'companies', icon: 'Office', title: '企业' },
   { index: 'my-posts', icon: 'ChatDotRound', title: '我发出的回复' },
-  { index: 'received-posts', icon: 'Message', title: '我收到的回复' },
+  { index: 'received-replies', icon: 'Message', title: '我收到的回复' },
 ]
 
 watch(

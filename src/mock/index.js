@@ -54,6 +54,35 @@ Mock.mock(/\/login/, 'post', (options) => {
   }
 })
 
+
+Mock.mock(/\/api\/reply\/\d+/, 'get', (options) => {
+  const id = parseInt(options.url.match(/\/api\/reply\/(\d+)/)[1])
+  return {
+    code: 200,
+    data: {
+      id: id,
+      content: '这是一条回复内容',
+      author: {
+        id: 1,
+        username: 'John Doe',
+        avatar: 'https://via.placeholder.com/50'
+      },
+      createTime: '2023-06-01T12:34:56Z'
+    },
+    message: '获取回复成功'
+  }
+}
+)
+
+Mock.mock(/\/api\/replyIdList\/\d+/, 'get', (options) => {
+  return {
+    code: 200,
+    data:{
+      replyIdList: [1,2,3,4,5,6,7,8,9,10]
+    }
+  }
+})
+
 export default Mock
 
 
