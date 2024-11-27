@@ -1,10 +1,12 @@
 <template>
   <el-card class="user-card" @click="handleClick" shadow="hover">
+    <div class="card-body">
     <el-avatar :size="40" :src="user.avatar" />
     <div class="user-info">
       <div class="username">{{ user.username }}</div>
       <div class="bio">{{ user.bio }}</div>
     </div>
+  </div>
   </el-card>
 </template>
 
@@ -16,25 +18,13 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const userStore = useUserStore()
+const {user} = defineProps(['user'])
 
-const props = defineProps(['userId'])
-
-const user = ref({})
-
-const getUserInfo = async () => {
-
-    const response = await service.get(`/api/user/${props.userId}`)
-    user.value = response.data.data
-
-}
 
 onMounted(async () => {
-  await getUserInfo()
 })
 const handleClick = () => {
-  console.log('userId', props.userId)
-  router.push({ name: 'profile', params: { userId: props.userId } })
+  router.push({ name: 'profile', params: { userId: user.id } })
 }
 </script>
 
@@ -48,10 +38,15 @@ const handleClick = () => {
   margin-bottom: 12px;
 }
 
+
+
 .user-card:hover {
   transform: translateY(-2px);
 }
 
+.card-body {
+  display: flex;
+}
 .user-info {
   margin-left: 16px;
   flex: 1;

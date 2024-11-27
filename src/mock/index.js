@@ -34,6 +34,17 @@ Mock.mock(/\/api\/user\/\d+/, 'get', (options) => {
   }
 })
 
+Mock.mock(/\/api\/user\/follow\/page/, 'get', () => {
+  return {
+    code: 200,
+    data: {
+      userList: mockUser.users,
+      total: mockUser.users.length
+    },
+    message: '获取用户列表成功'
+  }
+})
+
 Mock.mock(/\/login/, 'post', (options) => {
   // 对于 POST 请求，options.body 会包含请求数据
   const requestData = JSON.parse(options.body)
@@ -61,7 +72,7 @@ Mock.mock(/\/api\/reply\/\d+/, 'get', (options) => {
     code: 200,
     data: {
       id: id,
-      content: '这是一条回复内容',
+      content: '这是一条回复内容,7',
       author: {
         id: 1,
         username: 'John Doe',
@@ -74,12 +85,39 @@ Mock.mock(/\/api\/reply\/\d+/, 'get', (options) => {
 }
 )
 
-Mock.mock(/\/api\/replyIdList\/\d+/, 'get', (options) => {
+
+
+const mockReplies = Mock.mock({
+  'replies|20': [{
+    'id|+1': 1,
+    'content': '这是一条回复内容',
+    'author': {
+      'id|+1': 1,
+      'username': '@cname',
+      'avatar': '@image("50x50", "#4A7BF7")'
+    },
+    'createTime': '@datetime'
+ }]
+})
+
+Mock.mock(/\/api\/reply\/page/, 'get', (options) => {
+  // 解析查询参数
+  const urlParams = new URLSearchParams(options.url.split('?')[1]);
+  const page = parseInt(urlParams.get('page')) || 1;
+  const pagesize = parseInt(urlParams.get('pagesize')) || 10;
+
+  // 计算分页数据
+  const start = (page - 1) * pagesize;
+  const end = start + pagesize;
+  const paginatedReplies = mockReplies.replies.slice(start, end);
+
   return {
     code: 200,
-    data:{
-      replyIdList: [1,2,3,4,5,6,7,8,9,10]
-    }
+    data: {
+      total: mockReplies.replies.length,
+      replies: paginatedReplies
+    },
+    message: '获取回复列表成功'
   }
 })
 

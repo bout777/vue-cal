@@ -90,6 +90,11 @@ const router = createRouter({
               path: 'receivedReplies',
               name: 'received-replies',
               component: () => import('../views/layout/components/Replies.vue')
+            },
+            {
+              path: 'devList',
+              name: 'developers',
+              component: () => import('@/components/DevList.vue')
             }
 
           ]

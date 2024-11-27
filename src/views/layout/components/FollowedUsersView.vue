@@ -1,8 +1,6 @@
 <template>
   <div class="followed-users-container">
-    <el-card
-      class="box-card"
-    >
+    <el-card class="box-card">
       <template #header>
         <div class="card-header">
           <span>关注的用户</span>
@@ -15,10 +13,7 @@
         </div>
 
         <template v-else>
-          <!-- <ul>
-          <user-card v-for="userId in followedUserIds" :key="userId" :userId="userId" />
-          </ul> -->
-          <UserList :userIdList="followedUserIds"/>
+          <UserList :userList="userList" />
         </template>
 
         <div v-if="loading" class="loading-wrapper">加载中</div>
@@ -34,58 +29,40 @@ import { ElMessage } from 'element-plus'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import UserCard from '@/components/UserCard.vue'
-import UserList from '@/components/UserList.vue'
+import UserList from '@/components/UserListView.vue'
 import { emitter } from '@/utils/emitter'
+import service from '@/utils/request'
 
 const route = useRoute()
 const loading = ref(false)
-const noMore = ref(false)
+const noMore = computed(() => page.value * pageSize >= totalSize.value)
 const followedUserIds = ref([])
-const page = ref(1)
+const page = ref(0)
 const pageSize = 10
 const initLoaded = ref(false)
 
 // 计算是否禁用加载
-const disabled = computed(() => loading.value || noMore.value)
-
-// 初始化加载
-const initLoad = async () => {
-  if (initLoaded.value) return
-  await load()
-  setTimeout(() => {
-    initLoaded.value = true
-  }, 1000)
-  console.log('initLoaded')
-}
+const disabled = ref(false)
+const userList = ref([])
+const totalSize = ref(0)
 
 // 加载数据
 const load = async () => {
   if (disabled.value) return
-
   loading.value = true
-  emitter.emit('loading', true)
-  try {
-    // 模拟API请求延迟
-    await new Promise(resolve => setTimeout(resolve, 1000))
+  disabled.value = true
+  page.value++
+  // 分页查询,传入页码和每页数量,后期需要修改
+  const response = await service.get('/api/user/follow/page', { params: { page: page.value, pageSize: pageSize.value } })
+  userList.value.push(...response.data.data.userList)
+  totalSize.value = response.data.data.total
+  loading.value = false
+  console.log('page', page.value * pageSize)
+  if (noMore.value) {
 
-    // 模拟获取数据
-    const start = (page.value - 1) * pageSize
-    const newUsers = Array.from({ length: pageSize }, (_, i) => start + i + 1)
-
-    // 模拟数据到达上限
-    if (followedUserIds.value.length >= 20) {
-      noMore.value = true
-      return
-    }
-
-    followedUserIds.value.push(...newUsers)
-    page.value++
-  } catch (error) {
-    ElMessage.error('加载失败，请重试')
-  } finally {
-    loading.value = false
-    emitter.emit('loading', false)
+    return
   }
+  disabled.value = false
 }
 
 // 滚动处理函数
@@ -94,10 +71,12 @@ let timer = null
 
 // 生命周期钩子
 onMounted(() => {
-  initLoad()
+  initLoaded.value = true
+  load()
   emitter.on('infiniteScroll', () => {
     load()
   })
+  emitter.emit('disabled', disabled)
 })
 
 // 组件卸载时移除滚动监听

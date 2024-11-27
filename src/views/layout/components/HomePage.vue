@@ -2,6 +2,7 @@
   <el-scrollbar>
   <div class="common-layout">
     <el-container v-infinite-scroll="() => { emitter.emit('infiniteScroll')
+    console.log('infiniteScroll')
      }" :infinite-scroll-disabled="disabled">
       <el-header><HeaderTabs /></el-header>
       <el-main>

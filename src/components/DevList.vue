@@ -1,15 +1,13 @@
 <template>
-  <div class="replies">
+  <div class="DevList">
     <el-card>
-      <template #header>
-        <div class="header-title">回复列表</div>
-      </template>
-      <ul>
-        <reply-card v-for="reply in replyList" :key="reply" :reply="reply" />
-      </ul>
+      <UserList :userList="devList"/>
       <div v-if="loading" class="loading-wrapper">加载中</div>
       <div v-if="noMore" class="no-more">没有更多了</div>
     </el-card>
+    <el-input class="search-bar"
+      placeholder="搜索"
+    />
   </div>
 </template>
 
@@ -19,15 +17,16 @@ import ReplyCard  from '@/components/ReplyCard.vue'
 import service from '@/utils/request';
 import { useUserStore } from '@/stores/user';
 import { emitter } from '@/utils/emitter';
+import UserList from '@/components/UserListView.vue'
 
-
-const replyList = ref([])
+const devList = ref([])
 const userStore = useUserStore()
 const page = ref(0)
 const pageSize = ref(10)
 const totalSize = ref(0)
 const disabled = ref(false)
 const loading = ref(false)
+const searchQuery = ref('')
 
 const noMore = computed(() => page.value * pageSize.value >= totalSize.value)
 
@@ -38,15 +37,19 @@ const load = async() => {
 
   // 分页查询,传入页码和每页数量,后期需要修改
   page.value++
-  const response = await service.get('/api/reply/page',{params:{page:page.value,pageSize:pageSize.value}})
-  console.log(response.data)
-  replyList.value.push(...response.data.data.replies)
+  const response = await service.get('/api/user/follow/page',{params:{page:page.value,pageSize:pageSize.value}})
+  console.log('page',page.value*pageSize.value)
+  devList.value.push(...response.data.data.userList)
   totalSize.value = response.data.data.total
   loading.value = false
   if(noMore.value){
     return
   }
   disabled.value = false
+}
+
+const handleSearch = async() => {
+
 }
 
 
@@ -79,5 +82,12 @@ onUnmounted(() => {
   text-align: center;
   color: #909399;
   padding: 16px;
+}
+
+.search-bar {
+  position: fixed;
+  top: 100px;
+  right: 60px;
+  width: 300px;
 }
 </style>

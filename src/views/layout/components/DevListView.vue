@@ -11,7 +11,7 @@
 
 <script setup>
 import { useUserStore } from '@/stores/user';
-import UserList from '@/components/UserList.vue'
+import UserList from '@/components/UserListView.vue'
 import service from '@/utils/request';
 ``
 defineProps(['userIdList'])
